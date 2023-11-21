@@ -1,0 +1,22 @@
+{
+    "usuarios": [
+        {
+            "id": 1,
+            "username": "usuario1",
+            "password": "clave123",
+            "tipo": "regular"
+        },
+        {
+            "id": 2,
+            "username": "usuario2",
+            "password": "contraseña456",
+            "tipo": "admin"
+        },
+        {
+            "id": 3,
+            "username": "usuario3",
+            "password": "password789",
+            "tipo": "regular"
+        }
+    ]
+}

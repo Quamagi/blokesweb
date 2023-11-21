@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Inicio de Sesión</title>
+    <!-- CDN de Vue.js 3 -->
+    <script src="https://unpkg.com/vue@next"></script>
+
+    <!-- CDN de Bulma (CSS) -->
+    <link href="https://cdn.jsdelivr.net/npm/bulma@latest/css/bulma.min.css" rel="stylesheet">
+
+    <!-- CDN de Font Awesome (iconos) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="app" class="container">
+        <form @submit.prevent="login" class="box">
+            <h1 class="title is-4">Inicio de Sesión</h1>
+            <div class="field">
+                <label for="username" class="label">Usuario</label>
+                <div class="control has-icons-left">
+                    <input v-model="username" type="text" id="username" class="input" placeholder="Ingrese su usuario">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-user"></i>
+                    </span>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="password" class="label">Contraseña</label>
+                <div class="control has-icons-left">
+                    <input v-model="password" type="password" id="password" class="input"
+                        placeholder="Ingrese su contraseña">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <button type="submit" class="button is-primary">Iniciar Sesión</button>
+                </div>
+            </div>
+            <div v-if="error" class="notification is-danger">
+                Usuario o contraseña incorrectos
+            </div>
+        </form>
+    </div>
+
+    <!-- Vue 3 script -->
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    username: '',
+                    password: '',
+                    error: false // Agrega esta propiedad para controlar la visibilidad del mensaje de error blñablba
+                };
+            },
+            methods: {
+                login() {
+                    fetch('usuarios.json')
+                        .then(response => response.json())
+                        .then(data => {
+                            const user = data.usuarios.find(u => u.username === this.username && u.password === this.password);
+                            if (user) {
+                                // Autenticación exitosa
+                                console.log('¡Inicio de sesión exitoso!');
+                                console.log('Tipo de usuario:', user.tipo);
+                                // Aquí podrías redirigir o realizar otras acciones para usuarios autenticados
+                            } else {
+                                // Credenciales incorrectas
+                                this.error = true; // Muestra el mensaje de error
+                                setTimeout(() => {
+                                    this.error = false; // Después de un tiempo, oculta el mensaje de error
+                                }, 3000); // Por ejemplo, ocultarlo después de 3 segundos (puedes ajustar este tiempo)
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error al cargar el archivo JSON:', error);
+                        });
+                }
+            }
+
+        });
+
+        app.mount('#app');
+    </script>
+</body>
+
+</html>
