@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {
     "usuarios": [
         {
@@ -20,27 +19,4 @@
             "tipo": "regular"
         }
     ]
-=======
-{
-    "usuarios": [
-        {
-            "id": 1,
-            "username": "usuario1",
-            "password": "clave123",
-            "tipo": "regular"
-        },
-        {
-            "id": 2,
-            "username": "usuario2",
-            "password": "contraseña456",
-            "tipo": "admin"
-        },
-        {
-            "id": 3,
-            "username": "usuario3",
-            "password": "password789",
-            "tipo": "regular"
-        }
-    ]
->>>>>>> 90357981490bc9401f8f276392a9f399c8020b1d
 }
