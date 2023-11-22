@@ -1,0 +1,69 @@
+[
+    {
+      "id": 1,
+      "titulo": "Producto 1",
+      "imagenes": ["imagen1.jpg", "imagen2.jpg", "imagen3.jpg"],
+      "precio": 50.00,
+      "estado": "Disponible",
+      "tipoEnvio": "Envío estándar",
+      "formasPago": ["Tarjeta de crédito", "Transferencia bancaria"],
+      "etiquetas": ["Electrónica", "Oferta"],
+      "categoria": "Tecnología"
+    },
+    {
+      "id": 2,
+      "titulo": "Producto 2",
+      "imagenes": ["imagen4.jpg", "imagen5.jpg", "imagen6.jpg"],
+      "precio": 100.00,
+      "estado": "Disponible",
+      "tipoEnvio": "Envío rápido",
+      "formasPago": ["Tarjeta de crédito", "PayPal"],
+      "etiquetas": ["Ropa", "Mujer"],
+      "categoria": "Moda"
+    },
+    {
+      "id": 3,
+      "titulo": "Producto 3",
+      "imagenes": ["imagen7.jpg", "imagen8.jpg", "imagen9.jpg"],
+      "precio": 200.00,
+      "estado": "No disponible",
+      "tipoEnvio": "Envío express",
+      "formasPago": ["Tarjeta de débito", "Efectivo"],
+      "etiquetas": ["Electrónica", "Gaming"],
+      "categoria": "Videojuegos"
+    },
+    {
+      "id": 4,
+      "titulo": "Producto 4",
+      "imagenes": ["imagen10.jpg", "imagen11.jpg", "imagen12.jpg"],
+      "precio": 300.00,
+      "estado": "Disponible",
+      "tipoEnvio": "Envío gratuito",
+      "formasPago": ["Tarjeta de crédito", "Transferencia bancaria"],
+      "etiquetas": ["Hogar", "Decoración"],
+      "categoria": "Decoración"
+    },
+    {
+      "id": 5,
+      "titulo": "Producto 5",
+      "imagenes": ["imagen13.jpg", "imagen14.jpg", "imagen15.jpg"],
+      "precio": 400.00,
+      "estado": "Disponible",
+      "tipoEnvio": "Envío estándar",
+      "formasPago": ["Tarjeta de débito", "PayPal"],
+      "etiquetas": ["Alimentos", "Saludable"],
+      "categoria": "Alimentación"
+    },
+    {
+      "id": 6,
+      "titulo": "Producto 6",
+      "imagenes": ["imagen16.jpg", "imagen17.jpg", "imagen18.jpg"],
+      "precio": 500.00,
+      "estado": "Disponible",
+      "tipoEnvio": "Envío express",
+      "formasPago": ["Tarjeta de crédito", "Efectivo"],
+      "etiquetas": ["Libros", "Narrativa"],
+      "categoria": "Libros"
+    }
+  ]
+  

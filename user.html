@@ -1,11 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Mi Página de Usuario</title>
+    <!-- Enlaza tus estilos de Bulma y Font Awesome -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <!-- Enlaza tu archivo CSS personalizado si es necesario -->
+    <link rel="stylesheet" href="tu-archivo-css.css">
 </head>
+
 <body>
-    <h4>bienvenido a blokes 1.0</h4>
+    <!-- Contenido de la página del usuario -->
+    <div id="app">
+        <!-- Vue 3 gestionará esta sección -->
+        <div class="container">
+            <button @click="abrirModal" class="button is-success mb-4">
+                Agregar Nueva Publicación
+            </button>
+            <!-- Aquí irá la tabla de publicaciones -->
+            <table class="table">
+                <!-- Encabezado de la tabla -->
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Imágenes</th>
+                        <th>Precio</th>
+                        <th>Estado</th>
+                        <th>Tipo de Envío</th>
+                        <th>Formas de Pago</th>
+                        <th>Etiquetas</th>
+                        <th>Categoría</th>
+                        <!-- Puedes agregar más columnas según sea necesario -->
+                    </tr>
+                </thead>
+                <!-- Cuerpo de la tabla (aquí se mostrarán las publicaciones) -->
+                <tbody>
+                    <tr v-for="publicacion in publicaciones" :key="publicacion.id">
+                        <td>{{ publicacion.titulo }}</td>
+                        <td>
+                            <!-- Mostrar solo la primera imagen del producto -->
+                            <img :src="publicacion.imagenes[0]" alt="Imagen">
+                        </td>
+                        <td>{{ publicacion.precio }}</td>
+                        <td>{{ publicacion.estado }}</td>
+                        <td>{{ publicacion.tipoEnvio }}</td>
+                        <td>{{ publicacion.formasPago.join(', ') }}</td>
+                        <td>{{ publicacion.etiquetas.join(', ') }}</td>
+                        <td>{{ publicacion.categoria }}</td>
+                        <!-- Botones para modificar y borrar -->
+                        <td>
+                            <button @click="editarPublicacion(publicacion.id)">
+                                <i class="fas fa-pencil-alt"></i> <!-- Icono lápiz -->
+                            </button>
+                            <button @click="borrarPublicacion(publicacion.id)">
+                                <i class="fas fa-times"></i> <!-- Icono X -->
+                            </button>
+                        </td>
+                        <!-- Puedes agregar más columnas según sea necesario -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- Modal para agregar nueva publicación -->
+        <div class="modal" :class="{ 'is-active': modalActivo }">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+              <header class="modal-card-head">
+                <p class="modal-card-title">Agregar Nueva Publicación</p>
+                <button @click="cerrarModal" class="delete" aria-label="close"></button>
+              </header>
+              <section class="modal-card-body">
+                <form @submit.prevent="agregarPublicacion">
+                    <div class="field">
+                      <label class="label">Título:</label>
+                      <input type="text" class="input" id="titulo" v-model="nuevaPublicacion.titulo" required>
+                    </div>
+                  
+                    <div class="field">
+                      <label class="label">Imágenes:</label>
+                      <input type="text" class="input" id="imagenes" v-model="nuevaPublicacion.imagenes" placeholder="Separa las imágenes con comas" required>
+                    </div>
+                  
+                    <div class="field">
+                      <label class="label">Precio:</label>
+                      <input type="number" class="input" id="precio" v-model="nuevaPublicacion.precio" step="0.01" required>
+                    </div>
+                  
+                    <div class="field">
+                      <label class="label">Estado:</label>
+                      <select class="input" id="estado" v-model="nuevaPublicacion.estado" required>
+                        <option value="Disponible">Disponible</option>
+                        <option value="No disponible">No disponible</option>
+                        </select>
+                    </div>
+                  
+                    <div class="field">
+                      <label class="label">Tipo de Envío:</label>
+                      <input type="text" class="input" id="tipoEnvio" v-model="nuevaPublicacion.tipoEnvio" required>
+                    </div>
+                  
+                    <div class="field">
+                      <label class="label">Formas de Pago:</label>
+                      <input type="text" class="input" id="formasPago" v-model="nuevaPublicacion.formasPago" placeholder="Separa las formas de pago con comas" required>
+                    </div>
+                  
+                    <div class="field">
+                      <label class="label">Etiquetas:</label>
+                      <input type="text" class="input" id="etiquetas" v-model="nuevaPublicacion.etiquetas" placeholder="Separa las etiquetas con comas" required>
+                    </div>
+                  
+                    <div class="field">
+                      <label class="label">Categoría:</label>
+                      <input type="text" class="input" id="categoria" v-model="nuevaPublicacion.categoria" required>
+                    </div>
+                  
+                    <div class="field is-grouped">
+                      <div class="control">
+                        <button type="submit" class="button is-success">Agregar</button>
+                      </div>
+                      <div class="control">
+                        <button @click="cerrarModal" class="button">Cancelar</button>
+                      </div>
+                    </div>
+                  </form>
+                  
+                  
+              </section>
+            </div>
+          </div>          
+    </div>
+
+    <!-- Enlaza tus scripts de Vue y el script donde manejas los datos -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.0.11/dist/vue.global.min.js"></script>
+    <script src="tu-archivo-de-datos.js"></script>
 </body>
+
 </html>
