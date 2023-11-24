@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
   <!-- Enlaza tu archivo CSS personalizado si es necesario -->
-  <link rel="stylesheet" href="tu-archivo-css.css">
+  <!--link rel="stylesheet" href="tu-archivo-css.css"> -->
 </head>
 
 <body>
@@ -47,8 +47,14 @@
             <td>{{ publicacion.precio }}</td>
             <td>{{ publicacion.estado }}</td>
             <td>{{ publicacion.tipoEnvio }}</td>
-            <td>{{ publicacion.formasPago.join(', ') }}</td>
-            <td>{{ publicacion.etiquetas.join(', ') }}</td>
+            <!-- <td>{{ publicacion.formasPago.join(', ') }}</td> -->
+            <td><span v-for="(forma, index) in publicacion.formasPago">
+              {{ forma }}
+              <span v-if="index !== publicacion.formasPago.length - 1">, </span> 
+            </span>
+            </td>
+            <!-- <td>{{ publicacion.etiquetas.join(', ') }}</td> -->
+            <td>{{ Array.isArray(publicacion.etiquetas) ? publicacion.etiquetas.join(', ') : '' }}</td>
             <td>{{ publicacion.categoria }}</td>
             <!-- Botones para modificar y borrar -->
             <td>
@@ -73,15 +79,16 @@
           <button @click="cerrarModal" class="delete" aria-label="close"></button>
         </header>
         <section class="modal-card-body">
-          <form @submit.prevent="agregarPublicacion">
+          <form @submit.prevent="agregarPublicacion"> <!-- Llama a agregarPublicacion() cuando se envíe el formulario -->
             <div class="field">
               <label class="label">Título:</label>
               <input type="text" class="input" id="titulo" v-model="nuevaPublicacion.titulo" required>
             </div>
 
             <div class="field">
+              
               <label class="label">Imágenes:</label>
-              <input type="text" class="input" id="imagenes" v-model="nuevaPublicacion.imagenes"
+              <input type="file"  @change="handleFileChange" multiple class="input" id="imagenes"
                 placeholder="Separa las imágenes con comas" required>
             </div>
 
@@ -133,6 +140,7 @@
       </div>
     </div>
 <!-- Modal para editar una publicación existente -->
+
 <div class="modal" :class="{ 'is-active': editarActivo }">
   <div class="modal-background"></div>
   <div class="modal-card">

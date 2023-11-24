@@ -1,0 +1,11 @@
+{
+  "name": "blokesweb",
+  "version": "1.0.0",
+  "description": "blokesweb la pagina oficial",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Martin Oviedo",
+  "license": "ISC"
+}

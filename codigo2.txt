@@ -1,0 +1,533 @@
+===================================================================================
+								login.html
+===================================================================================
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Inicio de Sesión</title>
+    <!-- CDN de Vue.js 3 -->
+    <script src="https://unpkg.com/vue@next"></script>
+
+    <!-- CDN de Bulma (CSS) -->
+    <link href="https://cdn.jsdelivr.net/npm/bulma@latest/css/bulma.min.css" rel="stylesheet">
+
+    <!-- CDN de Font Awesome (iconos) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="app" class="container">
+        <form @submit.prevent="login" class="box">
+            <h1 class="title is-4">Inicio de Sesión</h1>
+            <div class="field">
+                <label for="username" class="label">Usuario</label>
+                <div class="control has-icons-left">
+                    <input v-model="username" type="text" id="username" class="input" placeholder="Ingrese su usuario">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-user"></i>
+                    </span>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="password" class="label">Contraseña</label>
+                <div class="control has-icons-left">
+                    <input v-model="password" type="password" id="password" class="input"
+                        placeholder="Ingrese su contraseña">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <button type="submit" class="button is-primary">Iniciar Sesión</button>
+                </div>
+            </div>
+            <div v-if="error" class="notification is-danger">
+                Usuario o contraseña incorrectos
+            </div>
+        </form>
+    </div>
+
+    <!-- Vue 3 script -->
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    username: '',
+                    password: '',
+                    error: false // Agrega esta propiedad para controlar la visibilidad del mensaje de error blñablba
+                };
+            },
+            methods: {
+                login() {
+                    fetch('usuarios.json')
+                        .then(response => response.json())
+                        .then(data => {
+                            const user = data.usuarios.find(u => u.username === this.username && u.password === this.password);
+                            if (user) {
+                                // Autenticación exitosa
+                                console.log('¡Inicio de sesión exitoso!');
+                                console.log('Tipo de usuario:', user.tipo);
+                                // Aquí podrías redirigir o realizar otras acciones para usuarios autenticados
+                                window.location.href = 'user.html'; // Cambia 'user.html' por la ruta correcta a la página deseada
+                            } else {
+                                // Credenciales incorrectas
+                                this.error = true; // Muestra el mensaje de error
+                                setTimeout(() => {
+                                    this.error = false; // Después de un tiempo, oculta el mensaje de error
+                                }, 3000); // Por ejemplo, ocultarlo después de 3 segundos (puedes ajustar este tiempo)
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error al cargar el archivo JSON:', error);
+                        });
+                }
+            }
+
+        });
+
+        app.mount('#app');
+    </script>
+</body>
+</html>
+
+
+===================================================================================
+								productos.json
+===================================================================================
+[
+    {
+      "id": 1,
+      "titulo": "Producto 1",
+      "imagenes": ["imagen1.jpg", "imagen2.jpg", "imagen3.jpg"],
+      "precio": 50.00,
+      "estado": "Disponible",
+      "tipoEnvio": "Envío estándar",
+      "formasPago": ["Tarjeta de crédito", "Transferencia bancaria"],
+      "etiquetas": ["Electrónica", "Oferta"],
+      "categoria": "Tecnología"
+    },
+    {
+      "id": 2,
+      "titulo": "Producto 2",
+      "imagenes": ["imagen4.jpg", "imagen5.jpg", "imagen6.jpg"],
+      "precio": 100.00,
+      "estado": "Disponible",
+      "tipoEnvio": "Envío rápido",
+      "formasPago": ["Tarjeta de crédito", "PayPal"],
+      "etiquetas": ["Ropa", "Mujer"],
+      "categoria": "Moda"
+    },
+    {
+      "id": 3,
+      "titulo": "Producto 3",
+      "imagenes": ["imagen7.jpg", "imagen8.jpg", "imagen9.jpg"],
+      "precio": 200.00,
+      "estado": "No disponible",
+      "tipoEnvio": "Envío express",
+      "formasPago": ["Tarjeta de débito", "Efectivo"],
+      "etiquetas": ["Electrónica", "Gaming"],
+      "categoria": "Videojuegos"
+    },
+    {
+      "id": 4,
+      "titulo": "Producto 4",
+      "imagenes": ["imagen10.jpg", "imagen11.jpg", "imagen12.jpg"],
+      "precio": 300.00,
+      "estado": "Disponible",
+      "tipoEnvio": "Envío gratuito",
+      "formasPago": ["Tarjeta de crédito", "Transferencia bancaria"],
+      "etiquetas": ["Hogar", "Decoración"],
+      "categoria": "Decoración"
+    },
+    {
+      "id": 5,
+      "titulo": "Producto 5",
+      "imagenes": ["imagen13.jpg", "imagen14.jpg", "imagen15.jpg"],
+      "precio": 400.00,
+      "estado": "Disponible",
+      "tipoEnvio": "Envío estándar",
+      "formasPago": ["Tarjeta de débito", "PayPal"],
+      "etiquetas": ["Alimentos", "Saludable"],
+      "categoria": "Alimentación"
+    },
+    {
+      "id": 6,
+      "titulo": "Producto 6",
+      "imagenes": ["imagen16.jpg", "imagen17.jpg", "imagen18.jpg"],
+      "precio": 500.00,
+      "estado": "Disponible",
+      "tipoEnvio": "Envío express",
+      "formasPago": ["Tarjeta de crédito", "Efectivo"],
+      "etiquetas": ["Libros", "Narrativa"],
+      "categoria": "Libros"
+    }
+  ]
+  
+
+
+===================================================================================
+								tu-archivo-de-datos.js
+===================================================================================
+// tu-archivo-de-datos.js
+
+const app = Vue.createApp({
+  data() {
+    return {
+      publicaciones: [], // Array para almacenar productos
+      modalActivo: false, // Agrega un flag para controlar la apertura/cierre del modal
+      editarActivo: false, // Agrega un flag para controlar la apertura/cierre del modal de edición
+      publicacionAEditar: {}, // Almacena la publicación que se va a editar
+      nuevaPublicacion: {
+        id: null,
+        titulo: '',
+        imagenes: [],
+        precio: null,
+        estado: '',
+        tipoEnvio: '',
+        formasPago: [],
+        etiquetas: [],
+        categoria: ''
+        // Inicializa los demás campos de acuerdo con la estructura de tu publicación
+      }
+    };
+  },
+  created() {
+    this.leerProductos(); // Llama a la función para leer productos al iniciar la app
+  },
+  methods: {
+    async agregarPublicacion() {
+      try {
+        const nuevoId = this.publicaciones.length + 1;
+    
+        const nuevoProducto = {
+          id: nuevoId,
+          titulo: this.nuevaPublicacion.titulo,
+          imagenes: this.nuevaPublicacion.imagenes,
+          precio: this.nuevaPublicacion.precio,
+          estado: this.nuevaPublicacion.estado,
+          tipoEnvio: this.nuevaPublicacion.tipoEnvio,
+          formasPago: this.nuevaPublicacion.formasPago,
+          etiquetas: this.nuevaPublicacion.etiquetas,
+          categoria: this.nuevaPublicacion.categoria
+          // Agregar otros campos según la estructura del producto
+        };
+    
+        const response = await fetch('productos.json', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(nuevoProducto),
+        });
+    
+        if (!response.ok) {
+          throw new Error('No se pudo agregar el producto');
+        }
+    
+        this.publicaciones.push(nuevoProducto);
+    
+        this.nuevaPublicacion = {
+          id: null,
+          titulo: '',
+          imagenes: [],
+          precio: null,
+          estado: '',
+          tipoEnvio: '',
+          formasPago: [],
+          etiquetas: [],
+          categoria: ''
+          // Limpiar otros campos según la estructura del producto
+        };
+    
+        await this.leerProductos();
+      } catch (error) {
+        console.error('Error al agregar el producto:', error);
+      }
+    },
+    async leerProductos() {
+      try {
+        const response = await fetch('productos.json');
+        if (!response.ok) {
+          throw new Error('No se pudieron obtener los productos');
+        }
+        const data = await response.json();
+        this.publicaciones = data; // Asigna los productos al array en data
+      } catch (error) {
+        console.error('Error al obtener productos:', error);
+      }
+    },
+    async escribirProductos() {
+      try {
+        const response = await fetch('productos.json', {
+          method: 'POST', // Método para escribir en el archivo
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(this.publicaciones) // Convierte los datos a JSON para escribir
+        });
+        if (!response.ok) {
+          throw new Error('No se pudieron escribir los productos');
+        }
+        console.log('Productos escritos exitosamente');
+      } catch (error) {
+        console.error('Error al escribir productos:', error);
+      }
+    },
+    abrirModal() {
+      this.modalActivo = true; // Cambia el estado del modal a activo
+    },
+    cerrarModal() {
+      this.modalActivo = false; // Cambia el estado del modal a inactivo
+    },
+    abrirEdicion(id) {
+      this.publicacionAEditar = this.publicaciones.find(publicacion => publicacion.id === id);
+      this.editarActivo = true; // Abre el modal de edición
+    },
+    cerrarEdicion() {
+      this.editarActivo = false; // Cierra el modal de edición
+      this.publicacionAEditar = {}; // Restablece los datos de la publicación a editar
+    },
+    guardarEdicion() {
+      // Aquí debes implementar la lógica para guardar las ediciones realizadas
+      // a la publicación en this.publicacionAEditar
+
+      // Encuentra el índice de la publicación en el array publicaciones
+      const index = this.publicaciones.findIndex(publicacion => publicacion.id === this.publicacionAEditar.id);
+
+      // Reemplaza la publicación en el array con la versión actualizada
+      this.publicaciones.splice(index, 1, this.publicacionAEditar);
+
+      // Guardar los cambios en el archivo productos.json
+      this.escribirProductos();
+
+      this.editarActivo = false; // Cierra el modal de edición
+      this.publicacionAEditar = {}; // Restablece los datos de la publicación a editar
+    },
+    editarPublicacion(id) {
+      // Obtiene la publicación que se quiere editar
+      const publicacion = this.publicaciones.find((publicacion) => publicacion.id === id);
+
+      // Muestra el modal de edición
+      this.publicacionAEditar = publicacion;
+      this.editarActivo = true;
+    }
+  }
+});
+
+app.mount('#app');
+
+
+
+===================================================================================
+								user.html
+===================================================================================
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Página de Usuario</title>
+  <!-- Enlaza tus estilos de Bulma y Font Awesome -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+  <!-- Enlaza tu archivo CSS personalizado si es necesario -->
+  <link rel="stylesheet" href="tu-archivo-css.css">
+</head>
+
+<body>
+  <!-- Contenido de la página del usuario -->
+  <div id="app">
+    <!-- Vue 3 gestionará esta sección -->
+    <div class="container">
+      <button @click="abrirModal" class="button is-success mb-4">
+        Agregar Nueva Publicación
+      </button>
+      <!-- Aquí irá la tabla de publicaciones -->
+      <table class="table">
+        <!-- Encabezado de la tabla -->
+        <thead>
+          <tr>
+            <th>Título</th>
+            <th>Imágenes</th>
+            <th>Precio</th>
+            <th>Estado</th>
+            <th>Tipo de Envío</th>
+            <th>Formas de Pago</th>
+            <th>Etiquetas</th>
+            <th>Categoría</th>
+            <!-- Puedes agregar más columnas según sea necesario -->
+          </tr>
+        </thead>
+        <!-- Cuerpo de la tabla (aquí se mostrarán las publicaciones) -->
+        <tbody>
+          <tr v-for="publicacion in publicaciones" :key="publicacion.id">
+            <td>{{ publicacion.titulo }}</td>
+            <td>
+              <!-- Mostrar solo la primera imagen del producto -->
+              <img :src="publicacion.imagenes[0]" alt="Imagen">
+            </td>
+            <td>{{ publicacion.precio }}</td>
+            <td>{{ publicacion.estado }}</td>
+            <td>{{ publicacion.tipoEnvio }}</td>
+            <td>{{ publicacion.formasPago.join(', ') }}</td>
+            <!-- <td>{{ publicacion.etiquetas.join(', ') }}</td> -->
+            <td>{{ Array.isArray(publicacion.etiquetas) ? publicacion.etiquetas.join(', ') : '' }}</td>
+            <td>{{ publicacion.categoria }}</td>
+            <!-- Botones para modificar y borrar -->
+            <td>
+              <button @click="editarPublicacion(publicacion.id)">
+                <i class="fas fa-pencil-alt"></i>
+              </button>
+              <button @click="borrarPublicacion(publicacion.id)">
+                <i class="fas fa-times"></i> <!-- Icono X -->
+              </button>
+            </td>
+            <!-- Puedes agregar más columnas según sea necesario -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- Modal para agregar nueva publicación -->
+    <div class="modal" :class="{ 'is-active': modalActivo }">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Agregar Nueva Publicación</p>
+          <button @click="cerrarModal" class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <form @submit.prevent="agregarPublicacion"> <!-- Llama a agregarPublicacion() cuando se envíe el formulario -->
+            <div class="field">
+              <label class="label">Título:</label>
+              <input type="text" class="input" id="titulo" v-model="nuevaPublicacion.titulo" required>
+            </div>
+
+            <div class="field">
+              <label class="label">Imágenes:</label>
+              <input type="text" class="input" id="imagenes" v-model="nuevaPublicacion.imagenes"
+                placeholder="Separa las imágenes con comas" required>
+            </div>
+
+            <div class="field">
+              <label class="label">Precio:</label>
+              <input type="number" class="input" id="precio" v-model="nuevaPublicacion.precio" step="0.01" required>
+            </div>
+
+            <div class="field">
+              <label class="label">Estado:</label>
+              <select class="input" id="estado" v-model="nuevaPublicacion.estado" required>
+                <option value="Disponible">Disponible</option>
+                <option value="No disponible">No disponible</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label class="label">Tipo de Envío:</label>
+              <input type="text" class="input" id="tipoEnvio" v-model="nuevaPublicacion.tipoEnvio" required>
+            </div>
+
+            <div class="field">
+              <label class="label">Formas de Pago:</label>
+              <input type="text" class="input" id="formasPago" v-model="nuevaPublicacion.formasPago"
+                placeholder="Separa las formas de pago con comas" required>
+            </div>
+
+            <div class="field">
+              <label class="label">Etiquetas:</label>
+              <input type="text" class="input" id="etiquetas" v-model="nuevaPublicacion.etiquetas"
+                placeholder="Separa las etiquetas con comas" required>
+            </div>
+
+            <div class="field">
+              <label class="label">Categoría:</label>
+              <input type="text" class="input" id="categoria" v-model="nuevaPublicacion.categoria" required>
+            </div>
+
+            <div class="field is-grouped">
+              <div class="control">
+                <button type="submit" class="button is-success">Agregar</button>
+              </div>
+              <div class="control">
+                <button @click="cerrarModal" class="button">Cancelar</button>
+              </div>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
+<!-- Modal para editar una publicación existente -->
+
+<div class="modal" :class="{ 'is-active': editarActivo }">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Editar Publicación</p>
+      <button @click="cerrarEdicion" class="delete" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+      <form @submit.prevent="guardarEdicion">
+        <!-- Campos de formulario llenados con los datos de publicacionAEditar -->
+        <div class="field">
+          <label class="label">Título:</label>
+          <input type="text" class="input" v-model="publicacionAEditar.titulo" required>
+        </div>
+
+        <!-- Otros campos del formulario -->
+
+        <div class="field is-grouped">
+          <div class="control">
+            <button type="submit" class="button is-success">Guardar</button>
+          </div>
+          <div class="control">
+            <button @click="cerrarEdicion" class="button">Cancelar</button>
+          </div>
+        </div>
+      </form>
+    </section>
+  </div>
+</div>
+
+  </div>
+
+  <!-- Enlaza tus scripts de Vue y el script donde manejas los datos -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.0.11/dist/vue.global.min.js"></script>
+  <script src="tu-archivo-de-datos.js"></script>
+</body>
+
+</html>
+
+
+===================================================================================
+								usuarios.json
+===================================================================================
+{
+    "usuarios": [
+        {
+            "id": 1,
+            "username": "usuario1",
+            "password": "clave123",
+            "tipo": "regular"
+        },
+        {
+            "id": 2,
+            "username": "usuario2",
+            "password": "contraseña456",
+            "tipo": "admin"
+        },
+        {
+            "id": 3,
+            "username": "usuario3",
+            "password": "password789",
+            "tipo": "regular"
+        }
+    ]
+}
+
+

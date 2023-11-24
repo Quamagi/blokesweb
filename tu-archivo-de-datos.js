@@ -25,33 +25,54 @@ const app = Vue.createApp({
     this.leerProductos(); // Llama a la función para leer productos al iniciar la app
   },
   methods: {
-    agregarPublicacion() {
-      // Asigna un ID único a la nueva publicación (puedes usar un método como Math.random() o generar uno propio)
-      this.nuevaPublicacion.id = Math.floor(Math.random() * 1000);
+    async agregarPublicacion() {
+      try {
+        const nuevoId = this.publicaciones.length + 1;
 
-      // Agrega la nueva publicación al array de publicaciones
-      this.publicaciones.push(this.nuevaPublicacion);
+        const nuevoProducto = {
+          id: nuevoId,
+          titulo: this.nuevaPublicacion.titulo,
+          imagenes: this.nuevaPublicacion.imagenes,
+          precio: this.nuevaPublicacion.precio,
+          estado: this.nuevaPublicacion.estado,
+          tipoEnvio: this.nuevaPublicacion.tipoEnvio,
+          formasPago: this.nuevaPublicacion.formasPago,
+          etiquetas: this.nuevaPublicacion.etiquetas,
+          categoria: this.nuevaPublicacion.categoria
+          // Agregar otros campos según la estructura del producto
+        };
 
-      // Cierra el modal después de agregar la publicación
-      this.cerrarModal();
+        const response = await fetch('productos.json', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(nuevoProducto),
+        });
 
-      // Restablece el objeto nuevaPublicacion para futuras adiciones
-      this.nuevaPublicacion = {
-        id: null,
-        titulo: '',
-        imagenes: [],
-        precio: null,
-        estado: '',
-        tipoEnvio: '',
-        formasPago: [],
-        etiquetas: [],
-        categoria: ''
-        // Restablece los demás campos según la estructura de tu publicación
-      };
+        if (!response.ok) {
+          throw new Error('No se pudo agregar el producto');
+        }
 
-      // Llama a la función para escribir los productos (escribirProductos()) si es necesario
-      // this.escribirProductos();
+        this.publicaciones.push(nuevoProducto);
 
+        this.nuevaPublicacion = {
+          id: null,
+          titulo: '',
+          imagenes: [],
+          precio: null,
+          estado: '',
+          tipoEnvio: '',
+          formasPago: [],
+          etiquetas: [],
+          categoria: ''
+          // Limpiar otros campos según la estructura del producto
+        };
+
+        await this.leerProductos();
+      } catch (error) {
+        console.error('Error al agregar el producto:', error);
+      }
     },
     async leerProductos() {
       try {
@@ -99,17 +120,47 @@ const app = Vue.createApp({
     guardarEdicion() {
       // Aquí debes implementar la lógica para guardar las ediciones realizadas
       // a la publicación en this.publicacionAEditar
+
+      // Encuentra el índice de la publicación en el array publicaciones
+      const index = this.publicaciones.findIndex(publicacion => publicacion.id === this.publicacionAEditar.id);
+
+      // Reemplaza la publicación en el array con la versión actualizada
+      this.publicaciones.splice(index, 1, this.publicacionAEditar);
+
+      // Guardar los cambios en el archivo productos.json
+      this.escribirProductos();
+
       this.editarActivo = false; // Cierra el modal de edición
       this.publicacionAEditar = {}; // Restablece los datos de la publicación a editar
     },
     editarPublicacion(id) {
       // Obtiene la publicación que se quiere editar
       const publicacion = this.publicaciones.find((publicacion) => publicacion.id === id);
-    
+
       // Muestra el modal de edición
       this.publicacionAEditar = publicacion;
       this.editarActivo = true;
-    }    
+    },
+    handleFileChange(e) {
+
+      const files = e.target.files
+
+      for (let i = 0; i < files.length; i++) {
+
+        const file = files[i]
+        const reader = new FileReader()
+
+        reader.onload = () => {
+
+          this.nuevaPublicacion.imagenes.push(reader.result)
+
+        }
+
+        reader.readAsDataURL(file)
+
+      }
+
+    }
   }
 });
 
